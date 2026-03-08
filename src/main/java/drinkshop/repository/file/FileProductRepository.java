@@ -19,16 +19,31 @@ public class FileProductRepository
 
     @Override
     protected Product extractEntity(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            throw new IllegalArgumentException("Line cannot be null or empty");
+        }
 
         String[] elems = line.split(",");
+        if (elems.length != 5) {
+            throw new IllegalArgumentException("Invalid line format: " + line);
+        }
 
-        int id = Integer.parseInt(elems[0]);
-        String name = elems[1];
-        double price = Double.parseDouble(elems[2]);
-        CategorieBautura categorie = CategorieBautura.valueOf(elems[3]);
-        TipBautura tip = TipBautura.valueOf(elems[4]);
+        String idStr = elems[0].trim();
+        String name = elems[1].trim();
+        String priceStr = elems[2].trim();
+        String categorieStr = elems[3].trim();
+        String tipStr = elems[4].trim();
 
-        return new Product(id, name, price, categorie, tip);
+        try {
+            int id = Integer.parseInt(idStr);
+            double price = Double.parseDouble(priceStr);
+            CategorieBautura categorie = CategorieBautura.valueOf(categorieStr);
+            TipBautura tip = TipBautura.valueOf(tipStr);
+
+            return new Product(id, name, price, categorie, tip);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error parsing line: " + line, e);
+        }
     }
 
     @Override
