@@ -6,8 +6,8 @@ import drinkshop.repository.file.FileOrderRepository;
 import drinkshop.repository.file.FileProductRepository;
 import drinkshop.repository.file.FileRetetaRepository;
 import drinkshop.repository.file.FileStocRepository;
-import drinkshop.service.DrinkShopService;
-import drinkshop.service.DrinkShopServiceImpl;
+import drinkshop.reports.DailyReportService;
+import drinkshop.service.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,7 +25,11 @@ public class DrinkShopApp extends Application {
         Repository<Integer, Stoc> stocRepo = new FileStocRepository("data/stocuri.txt");
 
         // ---------- Initializare Service ----------
-        DrinkShopService service = new DrinkShopServiceImpl(productRepo, orderRepo, retetaRepo, stocRepo);
+        ProductService productService = new ProductServiceImpl(productRepo);
+        OrderService orderService = new OrderServiceImpl(orderRepo, productRepo);
+        RetetaService retetaService = new RetetaServiceImpl(retetaRepo);
+        StocService stocService = new StocServiceImpl(stocRepo);
+        DailyReportService reportService = new DailyReportService(orderRepo);
 
         // ---------- Incarcare FXML ----------
 
@@ -34,7 +38,7 @@ public class DrinkShopApp extends Application {
 
         // ---------- Setare Service in Controller ----------
         DrinkShopController controller = loader.getController();
-        controller.setService(service);
+        controller.setServices(productService, orderService, retetaService, stocService, reportService);
 
         // ---------- Afisare Fereastra ----------
         stage.setTitle("Coffee Shop Management");
