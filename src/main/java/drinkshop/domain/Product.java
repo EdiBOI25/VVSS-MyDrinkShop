@@ -1,6 +1,9 @@
 package drinkshop.domain;
 
-public class Product {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Product implements Serializable {
 
     private int id;
     private String nume;
