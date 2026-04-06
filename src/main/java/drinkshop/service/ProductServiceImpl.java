@@ -4,6 +4,8 @@ import drinkshop.domain.*;
 import drinkshop.repository.Repository;
 
 import drinkshop.service.validator.ProductValidator;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +54,27 @@ public class ProductServiceImpl implements ProductService {
         return getAllProducts().stream()
                 .filter(p -> p.getCategorie() == categorie)
                 .collect(Collectors.toList());
+    }
+
+    public List<Product> filterByPret(double pretMinim, double pretMaxim) {
+        if (pretMinim == 0 && pretMaxim == 0) return getAllProducts();
+
+        if (pretMinim > pretMaxim) {
+            throw new IllegalArgumentException("Pret minim nu poate fi mai mare decat pret maxim!");
+        }
+
+        if (pretMinim < 0 || pretMaxim < 0) {
+            throw new IllegalArgumentException("Pretul nu poate fi negativ!");
+        }
+
+        List<Product> products = new ArrayList<>();
+        for (Product p : getAllProducts()) {
+            if (p.getPret() >= pretMinim && p.getPret() <= pretMaxim) {
+                products.add(p);
+            }
+        }
+
+        return products;
     }
 
     public List<Product> filterByTip(TipBautura tip) {
