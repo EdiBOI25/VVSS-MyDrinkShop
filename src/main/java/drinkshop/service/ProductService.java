@@ -12,5 +12,6 @@ public interface ProductService {
     List<Product> getAllProducts();
     Product findById(int id);
     List<Product> filterByCategorie(CategorieBautura categorie);
+    List<Product> filterByPret(double pretMinim, double pretMaxim);
     List<Product> filterByTip(TipBautura tip);
 }

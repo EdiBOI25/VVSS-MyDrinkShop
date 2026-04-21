@@ -83,10 +83,10 @@ class ProductServiceBVATest {
     }
 
     @Test
-    @DisplayName("TC3_BVA: Produs valid - Boundary: price very small negative")
+    @DisplayName("TC3_BVA: Produs invalid - Boundary: price very small negative")
     @Tag("invalid")
     @Timeout(value = 500, unit = TimeUnit.MILLISECONDS)
-    void addProduct_ValidPriceSmallNegative() {
+    void addProduct_InvalidPriceSmallNegative() {
         Product p = new Product(3, "Limonada", -0.01, CategorieBautura.JUICE, TipBautura.WATER_BASED);
 
         assertThrows(ValidationException.class, () -> productService.addProduct(p));
