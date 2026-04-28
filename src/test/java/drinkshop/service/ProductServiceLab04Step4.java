@@ -27,8 +27,9 @@ class ProductServiceLab04Step4 {
     private ProductService productService;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         Path productsFile = tempDir.resolve("products-step4.txt");
+        Files.createFile(productsFile);
         productRepo = new FileProductRepository(productsFile.toString());
         productService = new ProductServiceImpl(productRepo);
     }
