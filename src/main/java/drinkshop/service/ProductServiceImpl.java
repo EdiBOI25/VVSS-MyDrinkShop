@@ -15,8 +15,12 @@ public class ProductServiceImpl implements ProductService {
     private final ProductValidator productValidator;
 
     public ProductServiceImpl(Repository<Integer, Product> productRepo) {
+        this(productRepo, new ProductValidator());
+    }
+
+    public ProductServiceImpl(Repository<Integer, Product> productRepo, ProductValidator productValidator) {
         this.productRepo = productRepo;
-        this.productValidator = new ProductValidator();
+        this.productValidator = productValidator;
     }
 
     public void addProduct(Product p) {
